@@ -2,7 +2,7 @@
 
 ## Current status
 
-Stage 0 - has not been presented to the committee.
+Stage 1 - exporing the shape of the design space.
 
 
 ## Proposal
