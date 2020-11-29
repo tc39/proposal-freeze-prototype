@@ -1,17 +1,19 @@
 {
   "private": true,
-  "name": "proposal-freeze-prototype",
+  "name": "@tc39/proposal-freeze-prototype",
   "description": "A TC39 proposal for Object.freezePrototypeOf.",
   "scripts": {
-    "build": "ecmarkup spec.html > index.html"
+    "start": "npm run build -- --watch",
+    "prebuild": "mkdir -p out || exit 0",
+    "build": "ecmarkup --verbose spec.emu out/index.html --css out/ecmarkup.css --js out/ecmarkup.js"
   },
-  "homepage": "https://github.com/bakkot/proposal-freeze-prototype#readme",
+  "homepage": "https://github.com/tc39/proposal-freeze-prototype#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bakkot/proposal-freeze-prototype.git"
+    "url": "git+https://github.com/tc39/proposal-freeze-prototype.git"
   },
   "license": "MIT",
   "devDependencies": {
-    "ecmarkup": "^3.16.0"
+    "ecmarkup": "^4.2.2"
   }
 }
