@@ -201,7 +201,7 @@
 
       <p>Module namespace exotic objects provide alternative definitions for all of the internal methods except [[GetPrototypeOf]], which behaves as defined in <emu-xref href="#sec-ordinary-object-internal-methods-and-internal-slots-getprototypeof"></emu-xref><ins> and [[SetPrototypeOf]], which behaves as defined in <emu-xref href="#sec-ordinary-object-internal-methods-and-internal-slots-setprototypeof-v"></emu-xref></ins>.</p>
 
-      <del>
+      <del class="block">
         <emu-clause id="sec-module-namespace-exotic-objects-setprototypeof-v">
           <h1>[[SetPrototypeOf]] ( _V_ )</h1>
           <p>When the [[SetPrototypeOf]] internal method of a module namespace exotic object _O_ is called with argument _V_, the following steps are taken:</p>
@@ -232,7 +232,7 @@
       </emu-clause>
     </emu-clause>
 
-    <del>
+    <del class="block">
       <emu-clause id="sec-immutable-prototype-exotic-objects">
         <h1>Immutable Prototype Exotic Objects</h1>
         <p>An immutable prototype exotic object is an exotic object that has a [[Prototype]] internal slot that will not change once it is initialized.</p>
@@ -370,102 +370,104 @@
       </emu-note>
     </emu-clause>
 
-    <emu-clause id="sec-proxy-object-internal-methods-and-internal-slots-getextensibility" oldids="sec-proxy-object-internal-methods-and-internal-slots-isextensible">
-      <h1>[[GetExtensibility]] ( )</h1>
-      <p>When the [[GetExtensibility]] internal method of a Proxy exotic object _O_ is called, the following steps are taken:</p>
-      <emu-alg>
-        1. Let _handler_ be _O_.[[ProxyHandler]].
-        1. If _handler_ is *null*, throw a *TypeError* exception.
-        1. Assert: Type(_handler_) is Object.
-        1. Let _target_ be _O_.[[ProxyTarget]].
-        1. Let _trap_ be ? GetMethod(_handler_, *"getExtensibility"*).
-        1. If _trap_ is not *undefined*, then
-          1. Let _trapResult_ be ? Call(_trap_, _handler_, &laquo; _target_ &raquo;).
-          1. If _trapResult_ is *"extensible"*, then
-            1. Let _enumTrapResult_ be ~extensible~.
-          1. Else if _trapResult_ is *"immutable-prototype"*, then
-            1. Let _enumTrapResult_ be ~immutable-prototype~.
-          1. Else if _trapResult_ is *"not-extensible"*, then
-            1. Let _enumTrapResult_ be ~not-extensible~.
-          1. Else, throw a *TypeError* exception.
-          1. Let _targetResult_ be ? _target_.[[GetExtensibility]]().
-          1. If _targetResult_ is not _enumTrapResult_, throw a *TypeError* exception.
-          1. Return _enumTrapResult_.
-        1. Else,
-          1. Let _legacyTrap_ be ? GetMethod(_handler_, *"isExtensible"*).
-          1. If _legacyTrap_ is *undefined*, then
-            1. Return ? _target_.[[GetExtensibility]]().
-          1. Let _booleanTrapResult_ be ! ToBoolean(? Call(_legacyTrap_, _handler_, &laquo; _target_ &raquo;)).
-          1. Let _targetResult_ be ? _target_.[[GetExtensibility]]().
-          1. If _targetResult_ is ~not-extensible~, let _booleanTargetResult_ be *true*.
-          1. Else, let _booleanTargetResult_ be *false*.
-          1. If SameValue(_booleanTrapResult_, _booleanTargetResult_) is *false*, throw a *TypeError* exception.
-          1. Return _targetResult_.
-      </emu-alg>
-      <emu-note>
-        <p>[[GetExtensibility]] for proxy objects enforces the following invariants:</p>
-        <ul>
-          <li>
-            The result of [[GetExtensibility]] is a ~extensible~, ~immutable-prototype~, or ~not-extensible~ spec enum value.
-          </li>
-          <li>
-            [[GetExtensibility]] applied to the proxy object must return the same value as [[GetExtensibility]] applied to the proxy object's target object.
-          </li>
-          <li>
-            If the proxy handler doesn't support the `getExtensibility` proxy trap, but supports the `isExtensible` proxy trap, then the result of calling the `isExtensible` proxy trap must return the same value as the IsExtensible abstract operation applied to the proxy object's target object.
-          </li>
-        </ul>
-      </emu-note>
-    </emu-clause>
-
-    <emu-clause id="sec-proxy-object-internal-methods-and-internal-slots-setextensibility" oldids="sec-proxy-object-internal-methods-and-internal-slots-preventextensions">
-      <h1>[[SetExtensibility]] ( _extensibility_ )</h1>
-      <p>When the [[SetExtensibility]] internal method of a Proxy exotic object _O_ is called with argument _extensibility_, the following steps are taken:</p>
-      <emu-alg>
-        1. Assert: _extensibility_ is ~extensible~, ~immutable-prototype~ or ~not-extensible~.
-        1. Let _handler_ be _O_.[[ProxyHandler]].
-        1. If _handler_ is *null*, throw a *TypeError* exception.
-        1. Assert: Type(_handler_) is Object.
-        1. Let _target_ be _O_.[[ProxyTarget]].
-        1. Let _trap_ be ? GetMethod(_handler_, *"getExtensibility"*).
-        1. If _trap_ is not *undefined*, then
-          1. If _extensibility_ is ~extensible~, let _stringExtensibility_ be *"extensible"*.
-          1. Else if _extensibility_ is ~immutable-prototype~, let _stringExtensibility_ be *"immutable-prototype"*.
+    <ins class="block">
+      <emu-clause id="sec-proxy-object-internal-methods-and-internal-slots-getextensibility" oldids="sec-proxy-object-internal-methods-and-internal-slots-isextensible">
+        <h1>[[GetExtensibility]] ( )</h1>
+        <p>When the [[GetExtensibility]] internal method of a Proxy exotic object _O_ is called, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _handler_ be _O_.[[ProxyHandler]].
+          1. If _handler_ is *null*, throw a *TypeError* exception.
+          1. Assert: Type(_handler_) is Object.
+          1. Let _target_ be _O_.[[ProxyTarget]].
+          1. Let _trap_ be ? GetMethod(_handler_, *"getExtensibility"*).
+          1. If _trap_ is not *undefined*, then
+            1. Let _trapResult_ be ? Call(_trap_, _handler_, &laquo; _target_ &raquo;).
+            1. If _trapResult_ is *"extensible"*, then
+              1. Let _enumTrapResult_ be ~extensible~.
+            1. Else if _trapResult_ is *"immutable-prototype"*, then
+              1. Let _enumTrapResult_ be ~immutable-prototype~.
+            1. Else if _trapResult_ is *"not-extensible"*, then
+              1. Let _enumTrapResult_ be ~not-extensible~.
+            1. Else, throw a *TypeError* exception.
+            1. Let _targetResult_ be ? _target_.[[GetExtensibility]]().
+            1. If _targetResult_ is not _enumTrapResult_, throw a *TypeError* exception.
+            1. Return _enumTrapResult_.
           1. Else,
-            1. Assert: _extensibility_ is ~not-extensible~.
-            1. Let _stringExtensibility_ be *"not-extensible"*.
-          1. Let _booleanTrapResult_ be ! ToBoolean(? Call(_trap_, _handler_, &laquo; _target_, _stringExtensibility_ &raquo;)).
-          1. If _booleanTrapResult_ is *true*, then
-            1. Let _targetExtensibility_ be _target_.[[GetExtensibility]]().
-            1. If _booleanTrapResult_ is not _targetExtensibility_, throw a *TypeError* exception.
-          1. Return _booleanTrapResult_.
-        1. Else if _extensibility_ is not ~not-extensible~, then
-          1. Return ? _target_.[[SetExtensibility]]( _extensibility_ ).
-        1. Else,
-          1. Let _legacyTrap_ be ? GetMethod(_handler_, *"preventExtensions"*).
-          1. If _legacyTrap_ is *undefined*, then
+            1. Let _legacyTrap_ be ? GetMethod(_handler_, *"isExtensible"*).
+            1. If _legacyTrap_ is *undefined*, then
+              1. Return ? _target_.[[GetExtensibility]]().
+            1. Let _booleanTrapResult_ be ! ToBoolean(? Call(_legacyTrap_, _handler_, &laquo; _target_ &raquo;)).
+            1. Let _targetResult_ be ? _target_.[[GetExtensibility]]().
+            1. If _targetResult_ is ~not-extensible~, let _booleanTargetResult_ be *true*.
+            1. Else, let _booleanTargetResult_ be *false*.
+            1. If SameValue(_booleanTrapResult_, _booleanTargetResult_) is *false*, throw a *TypeError* exception.
+            1. Return _targetResult_.
+        </emu-alg>
+        <emu-note>
+          <p>[[GetExtensibility]] for proxy objects enforces the following invariants:</p>
+          <ul>
+            <li>
+              The result of [[GetExtensibility]] is a ~extensible~, ~immutable-prototype~, or ~not-extensible~ spec enum value.
+            </li>
+            <li>
+              [[GetExtensibility]] applied to the proxy object must return the same value as [[GetExtensibility]] applied to the proxy object's target object.
+            </li>
+            <li>
+              If the proxy handler doesn't support the `getExtensibility` proxy trap, but supports the `isExtensible` proxy trap, then the result of calling the `isExtensible` proxy trap must return the same value as the IsExtensible abstract operation applied to the proxy object's target object.
+            </li>
+          </ul>
+        </emu-note>
+      </emu-clause>
+
+      <emu-clause id="sec-proxy-object-internal-methods-and-internal-slots-setextensibility" oldids="sec-proxy-object-internal-methods-and-internal-slots-preventextensions">
+        <h1>[[SetExtensibility]] ( _extensibility_ )</h1>
+        <p>When the [[SetExtensibility]] internal method of a Proxy exotic object _O_ is called with argument _extensibility_, the following steps are taken:</p>
+        <emu-alg>
+          1. Assert: _extensibility_ is ~extensible~, ~immutable-prototype~ or ~not-extensible~.
+          1. Let _handler_ be _O_.[[ProxyHandler]].
+          1. If _handler_ is *null*, throw a *TypeError* exception.
+          1. Assert: Type(_handler_) is Object.
+          1. Let _target_ be _O_.[[ProxyTarget]].
+          1. Let _trap_ be ? GetMethod(_handler_, *"getExtensibility"*).
+          1. If _trap_ is not *undefined*, then
+            1. If _extensibility_ is ~extensible~, let _stringExtensibility_ be *"extensible"*.
+            1. Else if _extensibility_ is ~immutable-prototype~, let _stringExtensibility_ be *"immutable-prototype"*.
+            1. Else,
+              1. Assert: _extensibility_ is ~not-extensible~.
+              1. Let _stringExtensibility_ be *"not-extensible"*.
+            1. Let _booleanTrapResult_ be ! ToBoolean(? Call(_trap_, _handler_, &laquo; _target_, _stringExtensibility_ &raquo;)).
+            1. If _booleanTrapResult_ is *true*, then
+              1. Let _targetExtensibility_ be _target_.[[GetExtensibility]]().
+              1. If _booleanTrapResult_ is not _targetExtensibility_, throw a *TypeError* exception.
+            1. Return _booleanTrapResult_.
+          1. Else if _extensibility_ is not ~not-extensible~, then
             1. Return ? _target_.[[SetExtensibility]]( _extensibility_ ).
-          1. Let _booleanTrapResult_ be ! ToBoolean(? Call(_legacyTrap_, _handler_, &laquo; _target_ &raquo;)).
-          1. If _booleanTrapResult_ is *true*, then
-            1. Let _extensibleTarget_ be ? IsExtensible(_target_).
-            1. If _extensibleTarget_ is *true*, throw a *TypeError* exception.
-          1. Return _booleanTrapResult_.
-      </emu-alg>
-      <emu-note>
-        <p>[[SetExtensibility]] for proxy objects enforces the following invariants:</p>
-        <ul>
-          <li>
-            The result of [[SetExtensibility]] is a Boolean value.
-          </li>
-          <li>
-            [[SetExtensibility]] applied to the proxy object only returns *true* if the result of [[GetExtensibility]] applied to the proxy object's target object is _extensibility_.
-          </li>
-          <li>
-            If the proxy handler doesn't support the `setExtensibility` proxy trap, but supports the `preventExtensions` proxy trap, then the result of calling the `preventExtensions` proxy trap only returns *true* if the result of the IsExtensible abstract operation applied to the proxy object's target object is *false*.
-          </li>
-        </ul>
-      </emu-note>
-    </emu-clause>
+          1. Else,
+            1. Let _legacyTrap_ be ? GetMethod(_handler_, *"preventExtensions"*).
+            1. If _legacyTrap_ is *undefined*, then
+              1. Return ? _target_.[[SetExtensibility]]( _extensibility_ ).
+            1. Let _booleanTrapResult_ be ! ToBoolean(? Call(_legacyTrap_, _handler_, &laquo; _target_ &raquo;)).
+            1. If _booleanTrapResult_ is *true*, then
+              1. Let _extensibleTarget_ be ? IsExtensible(_target_).
+              1. If _extensibleTarget_ is *true*, throw a *TypeError* exception.
+            1. Return _booleanTrapResult_.
+        </emu-alg>
+        <emu-note>
+          <p>[[SetExtensibility]] for proxy objects enforces the following invariants:</p>
+          <ul>
+            <li>
+              The result of [[SetExtensibility]] is a Boolean value.
+            </li>
+            <li>
+              [[SetExtensibility]] applied to the proxy object only returns *true* if the result of [[GetExtensibility]] applied to the proxy object's target object is _extensibility_.
+            </li>
+            <li>
+              If the proxy handler doesn't support the `setExtensibility` proxy trap, but supports the `preventExtensions` proxy trap, then the result of calling the `preventExtensions` proxy trap only returns *true* if the result of the IsExtensible abstract operation applied to the proxy object's target object is *false*.
+            </li>
+          </ul>
+        </emu-note>
+      </emu-clause>
+    </ins>
   </emu-clause>
 </emu-clause>
 
@@ -490,27 +492,29 @@
         </emu-alg>
       </emu-clause>
 
-      <emu-clause id="sec-object.freezeprototype">
-        <h1>Object.freezePrototype ( _O_ )</h1>
-        <p>When the `freezePrototype` function is called, the following steps are taken:</p>
-        <emu-alg>
-          1. If Type(_O_) is not Object, return _O_.
-          1. Let _extensibility_ be ? _O_.[[GetExtensibility]]().
-          1. If _extensibility_ is not ~not-extensible~, then
-            1. Let _status_ be ? _O_.[[SetExtensibility]](~immutable-prototype~).
-            1. If _status_ is *false*, throw a *TypeError* exception.
-          1. Return _O_.
-        </emu-alg>
-      </emu-clause>
+      <ins class="block">
+        <emu-clause id="sec-object.freezeprototype">
+          <h1>Object.freezePrototype ( _O_ )</h1>
+          <p>When the `freezePrototype` function is called, the following steps are taken:</p>
+          <emu-alg>
+            1. If Type(_O_) is not Object, return _O_.
+            1. Let _extensibility_ be ? _O_.[[GetExtensibility]]().
+            1. If _extensibility_ is not ~not-extensible~, then
+              1. Let _status_ be ? _O_.[[SetExtensibility]](~immutable-prototype~).
+              1. If _status_ is *false*, throw a *TypeError* exception.
+            1. Return _O_.
+          </emu-alg>
+        </emu-clause>
 
-      <emu-clause id="sec-object.hasmutableprototype">
-        <h1>Object.hasMutablePrototype ( _O_ )</h1>
-        <p>When the `hasMutablePrototype` function is called, the following steps are taken:</p>
-        <emu-alg>
-          1. If Type(_O_) is not Object, return *false*.
-          1. Return ? HasMutablePrototype(_O_).
-        </emu-alg>
-      </emu-clause>
+        <emu-clause id="sec-object.hasmutableprototype">
+          <h1>Object.hasMutablePrototype ( _O_ )</h1>
+          <p>When the `hasMutablePrototype` function is called, the following steps are taken:</p>
+          <emu-alg>
+            1. If Type(_O_) is not Object, return *false*.
+            1. Return ? HasMutablePrototype(_O_).
+          </emu-alg>
+        </emu-clause>
+      </ins>
     </emu-clause>
 
     <emu-clause id="sec-properties-of-the-object-prototype-object">
@@ -533,19 +537,21 @@
   <emu-clause id="sec-reflect-object">
     <h1>The Reflect Object</h1>
 
-    <emu-clause id="sec-reflect.getextensibility">
-      <h1>Reflect.getExtensibility ( _target_ )</h1>
-      <p>When the `getExtensibility` function is called with argument _target_, the following steps are taken:</p>
-      <emu-alg>
-        1. If Type(_target_) is not Object, throw a *TypeError* exception.
-        1. Let _extensibility_ be ? _target_.[[GetExtensibility]]().
-        1. If _extensibility_ is ~extensible~, return *"extensible"*.
-        1. Else if _extensibility_ is ~immutable-prototype~, return *"extensible"*.
-        1. Else,
-          1. Assert: _extensibility_ is ~not-extensible~.
-          1. Return *"not-extensible"*.
-      </emu-alg>
-    </emu-clause>
+    <ins class="block">
+      <emu-clause id="sec-reflect.getextensibility">
+        <h1>Reflect.getExtensibility ( _target_ )</h1>
+        <p>When the `getExtensibility` function is called with argument _target_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_target_) is not Object, throw a *TypeError* exception.
+          1. Let _extensibility_ be ? _target_.[[GetExtensibility]]().
+          1. If _extensibility_ is ~extensible~, return *"extensible"*.
+          1. Else if _extensibility_ is ~immutable-prototype~, return *"extensible"*.
+          1. Else,
+            1. Assert: _extensibility_ is ~not-extensible~.
+            1. Return *"not-extensible"*.
+        </emu-alg>
+      </emu-clause>
+    </ins>
 
     <emu-clause id="sec-reflect.isextensible">
       <h1>Reflect.isExtensible ( _target_ )</h1>
@@ -567,20 +573,22 @@
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-reflect.setextensibility">
-      <h1>Reflect.setExtensibility ( _target_, _extensibility_ )</h1>
-      <p>When the `setExtensibility` function is called with arguments _target_ and _extensibility_, the following steps are taken:</p>
-      <emu-alg>
-        1. If Type(_target_) is not Object, throw a *TypeError* exception.
-        1. If _extensibility_ is *"extensible"*, then
-          1. Let _enumExtensibility_ be ~extensible~.
-        1. Else if _extensibility_ is *"immutable-prototype"*, then
-          1. Let _enumExtensibility_ be ~immutable-prototype~.
-        1. Else if _extensibility_ is *"not-extensible"*, then
-          1. Let _enumExtensibility_ be ~not-extensible~.
-        1. Else, throw a *TypeError* exception.
-        1. Return ? _target_.[[SetExtensibility]](_enumExtensibility_).
-      </emu-alg>
-    </emu-clause>
+    <ins class="block">
+      <emu-clause id="sec-reflect.setextensibility">
+        <h1>Reflect.setExtensibility ( _target_, _extensibility_ )</h1>
+        <p>When the `setExtensibility` function is called with arguments _target_ and _extensibility_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_target_) is not Object, throw a *TypeError* exception.
+          1. If _extensibility_ is *"extensible"*, then
+            1. Let _enumExtensibility_ be ~extensible~.
+          1. Else if _extensibility_ is *"immutable-prototype"*, then
+            1. Let _enumExtensibility_ be ~immutable-prototype~.
+          1. Else if _extensibility_ is *"not-extensible"*, then
+            1. Let _enumExtensibility_ be ~not-extensible~.
+          1. Else, throw a *TypeError* exception.
+          1. Return ? _target_.[[SetExtensibility]](_enumExtensibility_).
+        </emu-alg>
+      </emu-clause>
+    </ins>
   </emu-clause>
 </emu-clause>
